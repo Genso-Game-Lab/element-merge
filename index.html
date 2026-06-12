@@ -119,14 +119,7 @@
     </div>
   </div>
   <div class="legend">
-    <span class="cat-nonmetal">非金属</span>
-    <span class="cat-noble">希ガス</span>
-    <span class="cat-alkali">アルカリ金属</span>
-    <span class="cat-alkaline">アルカリ土類</span>
-    <span class="cat-halogen">ハロゲン</span>
-    <span class="cat-metalloid">半金属</span>
-    <span class="cat-post">その他金属</span>
-    <span class="cat-trans">遷移金属</span>
+    <span style="background:#334155">元素はぜんぶちがう色！同じ色＝同じ元素＝合体できる</span>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -218,7 +211,11 @@ function positionEl(t) {
 function makeEl(t, cls) {
   const e = ELEMENTS[t.n] || { sym:"?", name:"未知", cat:"post" };
   const el = document.createElement("div");
-  el.className = `tile cat-${e.cat}` + (cls ? ` ${cls}` : "");
+  el.className = "tile" + (cls ? ` ${cls}` : "");
+  // 元素ごとに全部ちがう色（黄金角で隣の番号ほど大きく色が変わる）
+  const hue = Math.round((t.n * 137.508) % 360);
+  el.style.background = `linear-gradient(135deg, hsl(${hue},78%,57%), hsl(${hue},72%,42%))`;
+  if (hue > 40 && hue < 80) el.style.color = "#1e293b";
   el.innerHTML = `<span class="num">${t.n}</span><span class="sym">${e.sym}</span><span class="name">${e.name}</span>`;
   tileEls.set(t.id, el);
   boardEl.appendChild(el);
